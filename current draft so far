@@ -1,0 +1,159 @@
+#define CRT_SECURE_NO_WARNINGS
+
+/* Title: Tortoise and Hare race simulation.
+ Author: Kevin Krywko
+ Date: 04/14/2020
+ Description: this is a text simulation mimicing a race between a rabbit (or hare) and a turtle (or tortoise). anyone of them could win this time.*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+//function prototypes to be used here.
+
+void printInstructions(void);
+void moveTortoise(int *turtle);
+void moveHare(int *hare);
+void printCurrentPosition(int turtle, int hare);
+void results(int turtle, int turtletime, int hare, int haretime, int timer);
+
+int main(void)
+{
+    srand(time(NULL));
+    
+    /* Variables to be used in this simulation.*/
+    int turtle = 1, hare = 1, timer = 0, turtletime = 0, haretime = 0;
+    
+    printInstructions();                      /* To set up the situation*/
+    
+    /* Loop to determine the position of each racer. */
+    /* Each character will move independently for the sake of fairness.*/
+    while (turtle < 70 && hare < 70)
+            moveTortoise(&turtle);
+            moveHare(&hare);
+            /* represented via number 0-70; 0 is the staring line  and 70 is the finish line. */
+            printCurrentPosition(turtle, hare);
+            timer++;
+    /* If the Tortoise crosses the line first, this applies.*/
+    if (turtle >= 70 && hare < 70)
+            {turtletime = timer;
+            while (hare < 70)
+                {moveHare(&hare);          /* Well, the other racer has to finish, right?*/
+                printCurrentPosition(turtle, hare);
+                timer++;
+                }
+                haretime = timer;
+            }
+    /* If the Hare crosses the line first, this applies.*/
+    if (turtle < 70 && hare >= 70)
+            {haretime = timer;
+            while (turtle < 70)
+                {moveTortoise(&turtle);    /* Well, the other racer has to finish, right?*/
+                printCurrentPosition(turtle, hare);
+                timer++;
+                }
+                turtletime = timer;
+            }
+    results(turtle, turtletime, hare, haretime, timer);
+    return (0);
+}
+void printInstructions(void)
+{          /* This is a naration from an announcer, gotta have a good story.*/
+    printf("Hello, Hello and welcome to all to the Annual 'Race to the Top' Challenge'! This is our xx year we at the 'Barnyard Society' have held this event and this year it looks to be a stormy one.\n");
+    printf("Don't worry; our safety officals have inspected the spirla track, from the starting line at the base of Mt McDonald to the finish line at the very top, and deemed it safe enough to keep the races going. However, it is going to be poring alot so make sure to bundle up and have an umbrella out; if your racing today, be sure to have your personal protective equipment on, for it can get slippery along the trail and it's a 70 foot climb up the 5k steps worth of trails.");
+    printf("One thing to remember is that those racing today are volunteers willing to show off for the rest of the crowd. and speaking of volunteers, are you thinking off volunteering yourself? You can still sign up in the racer booth till noon today. Admission is free of course. However, whoever wins their heats today will be awarded one pail each of carrots and lettuce.\n");
+    printf("\n");
+    printf("Okay, lets get this party started");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("And in the the next heat, two unlikely contestants in the running.\n");
+    printf("\n");
+    printf("In lane #1, we have....Mr. Turtle! He may seem slow and clumsy, but don't let that fool you for he can be quick on his toes when you least expect it. And can last longer in a sprint than anyone I have ever seen. Plus he is quite capable of adapting to wet terran, which means he has the home-court advantage today, given hwo rainy it is today.\n");
+    printf("\n");
+    printf("And in Lane #2, we have....Mr. Rabbit!. Oh he faster than lightning; I've seen it myself. Plus he's a pro on rough Terran. He currently holds several speed records on 'Short Distance Track'. Even so his greatest weaknest is his short stamina and weak traction on slippery ground, which is a handicap in today's weather. That could hurt him in this cross-country event.\n");
+    printf("\n");
+    printf("Okay, the two runners are now at the starting line waiting for the signal.\n");
+    printf("Mr. Rabbit, are you ready?\n");
+    printf("\n");
+    printf("Mr. Turtle, are you ready?\n");
+    printf("\n");
+    printf("Alrighty then.....\n");
+    printf("\n");
+    printf("In Three...\n");
+    printf("\n");
+    printf("Two...\n");
+    printf("\n");
+    printf("One...\n");
+    printf("...GO!!!!\n");
+}
+/* I believe for these functions, they will a randomizing lines of code; we should also use "switch statements as well"*/
+void moveTortoise(int *turtle)
+{
+    switch (*turtle)
+    {
+        case 0:
+            *turtle = *(turtle + 3);
+            break;
+        case 1:
+            *turtle = *(turtle - 6);
+            break;
+        case 2:
+            *turtle =*(turtle + 1);
+            break;
+    }
+}
+void moveHare(int *hare)
+{
+    switch (*hare)
+    {
+        case 0:
+            *hare = *hare;
+            break;
+        case 1:
+            *hare = *(hare + 9);
+            break;
+        case 2:
+            *hare = *(hare - 12);
+            break;
+        case 3:
+            *hare = *(hare + 1);
+            break;
+        case 4:
+            *hare = *(hare - 2);
+            break;
+    }
+}
+void printCurrentPosition(int turtle, int hare)
+{
+    printf("Mr. Turtle is now at the %d marker.", turtle);
+    printf("Mr. Rabbit is now at the %d marker.", hare);
+}
+void results(int turtle, int turtletime,  int hare, int haretime, int timer)
+{   /* For the results. the winner will be determined via how long it took for each of them to make the run. */
+    printf("And the winner is...\n");
+    printf("\n");
+    printf("\n");
+    /* For if the Tortoise wins the race via shorter time.*/
+    if (turtletime < haretime)
+        {printf("Mr. turtle!\n");
+        printf("Congradulations Mr. Turtle, you did it in %d seconds. Looks like you'll have some leftovers after tonight's dinner.\n", turtletime);
+        printf("Oh don't feel bad Mr. turtle. Your time of %d\n seconds is actually not that bad given the weather conditions outthere. Anyway, better luck next time.", turtletime);
+        }
+    /* For if the Hare wins the race via shorter time.*/
+    if (turtletime > haretime)
+        {printf("Mr. Rabbit!\n");
+        printf("Congradulations Mr. Rabbit, you did it in %d seconds. Guess your belly is going to feel bloated tonight, will it?\n", haretime);
+        printf("Oh don't feel bad Mr. Rabbitm. You've managed to do it in %d seconds. That's pretty good if you ask me, given the weather out here. Beside, there's always next year.\n", haretime);
+        }
+    /* If the race happens to be a tie.*/
+    else
+        {printf("Oh wow, It's a tie!");
+            printf("Unbelievable, they both did it in %d seconds.\n", timer);
+            printf("Gues the two will be sharing the prize...unless of course they're up for a rematch.\n");
+        }
+    /* and don't forget the closing statement of the simulation.*/
+    printf("Anyway folks, lets give a round of applaus for both Mr. Turtle and Mr. Rabbit!\n");
+    printf("\n");
+    printf("Looks like the safety officals want to do a quick inspection of the trail. So were going to take a 5 minute break before the next heat. Stay warm and dry out there.\n");
+}
